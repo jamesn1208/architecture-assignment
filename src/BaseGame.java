@@ -3,10 +3,11 @@ import Boards.Board;
 public class BaseGame {
     private final Ruleset rules;
     private final Board board;
-    private Player[] players;
+    public Player[] players;
 
     public BaseGame(Ruleset rules, Board board) {
         this.players = new Player[rules.numberOfPlayers];
+        this.players = PlayerFactory.manufacture(rules.numberOfPlayers, board);
         this.rules = rules;
         this.board = board;
     }
@@ -17,21 +18,45 @@ public class BaseGame {
     }
 
     public void start() {
-//        while (true) {
-//            for (int player = 1; player <= rules.numberOfPlayers; player++) {
-//                takeTurn(player);
-//                if (rules.winCondition.hasWon())
-//                // Check win condition here
-//            }
-//        }
-        int roll = 0;
-
-        for (int i = 0; i < rules.numberOfDice; i++) {
-            roll += rollDie();
+        while (true) {
+            for (Player player : players) {
+                boolean turn = takeTurn(player);
+                if (turn) {
+                    return;
+                }
+            }
         }
     }
 
+    private boolean takeTurn(Player player) {
+        int roll = rollDie();
+        System.out.println(player.getName() + " rolled a " + roll);
+
+    }
+
+    private Player movePlayer(Player player, int roll) {
+        int currentPosition = player.getPosition();
+        int newPosition = currentPosition + roll;
+
+        if (newPosition > board.getNumberOfTiles()) {
+            newPosition = newPosition % board.getNumberOfTiles();
+        }
+
+        if (currentPosition < newPosition && newPosition >= player.getTailIndex()) {
+            newPosition = board.getTailMap().get(newPosition % player.getTailIndex());
+        }
+
+        player.setPosition(newPosition);
+        return player;
+    }
+
     private int rollDie() {
-        return (int) (Math.random() * 6) + 1;
+        int roll = 0;
+
+        for (int i = 0; i < rules.numberOfDice; i++) {
+            roll += (int) (Math.random() * 6) + 1;
+        }
+
+        return roll;
     }
 }
