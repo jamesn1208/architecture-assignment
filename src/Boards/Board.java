@@ -10,4 +10,9 @@ public abstract class Board {
         this.numberOfTails = numberOfTails;
         this.tailSize = tailSize;
     }
+
+    @Override
+    public String toString() {
+        return "Board(numberOfTiles=" + numberOfTiles + ", numberOfTails=" + numberOfTails + ", tailSize=" + tailSize + ")";
+    }
 }
