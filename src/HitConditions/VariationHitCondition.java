@@ -15,7 +15,7 @@ public class VariationHitCondition implements HitCondition {
 
         for (Player player : players) {
             if (player.getPosition().equals(targetTile)) {
-                System.out.println(player.getName() + " is on tile " + targetTile + " so " + currentPlayer.getName() + " cannot move there, their turn is forfeit.");
+                System.out.println(player.getName() + " is already on tile " + targetTile + ", so " + currentPlayer.getName() + " cannot move there. "+ currentPlayer.getName() +"'s turn is forfeit.");
                 return false; // Cannot move to a tile already occupied by another player
             }
         }

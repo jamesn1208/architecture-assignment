@@ -19,7 +19,7 @@ public abstract class Board {
 
     @Override
     public String toString() {
-        return "Board(numberOfTiles=" + numberOfTiles + ", numberOfTails=" + numberOfTails + ", tailSize=" + tailSize + ")";
+        return this.getClass().getSimpleName() + "(numberOfTiles=" + numberOfTiles + ", numberOfTails=" + numberOfTails + ", tailSize=" + tailSize + ")";
     }
 
     private void buildTails() {
