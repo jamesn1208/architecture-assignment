@@ -44,7 +44,7 @@ public class Player {
             try {
                 pathIndex += roll;
                 currentPosition = path[pathIndex];
-            } catch (ArrayIndexOutOfBoundsException _) {
+            } catch (ArrayIndexOutOfBoundsException e) {
                 Console.log(name + " overshoots!", name);
                 pathIndex = path.length - 1;
                 currentPosition = path[pathIndex];
