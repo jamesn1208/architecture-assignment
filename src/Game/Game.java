@@ -1,20 +1,27 @@
-import Boards.Board;
+package Game;
 
-public class BaseGame {
+import Boards.Board;
+import Players.Player;
+import Players.PlayerFactory;
+import Utils.Console;
+
+import java.util.Arrays;
+
+public class Game {
     private final Ruleset rules;
     private final Board board;
     public Player[] players;
 
-    public BaseGame(Ruleset rules, Board board) {
+    public Game(Ruleset rules, Board board) {
         this.players = new Player[rules.numberOfPlayers];
-        this.players = PlayerFactory.manufacture(rules.numberOfPlayers, board);
+        this.players = PlayerFactory.manufacture(rules.numberOfPlayers, board, rules.winCondition);
         this.rules = rules;
         this.board = board;
     }
 
     @Override
     public String toString() {
-        return "BaseGame(rules=" + rules + ", board=" + board.getClass() + ")";
+        return "Main.BaseGame(rules=" + rules + ", board=" + board.getClass() + ", players=" + Arrays.toString(players) + ")";
     }
 
     public void start() {
@@ -30,24 +37,20 @@ public class BaseGame {
 
     private boolean takeTurn(Player player) {
         int roll = rollDie();
-        System.out.println(player.getName() + " rolled a " + roll);
+        Console.log(player.getName() + " rolled a " + roll, player.getName());
 
-    }
-
-    private Player movePlayer(Player player, int roll) {
-        int currentPosition = player.getPosition();
-        int newPosition = currentPosition + roll;
-
-        if (newPosition > board.getNumberOfTiles()) {
-            newPosition = newPosition % board.getNumberOfTiles();
+        if (! rules.hitCondition.movePlayer(players, player, roll)) {
+            return false;
         }
 
-        if (currentPosition < newPosition && newPosition >= player.getTailIndex()) {
-            newPosition = board.getTailMap().get(newPosition % player.getTailIndex());
+        player.move(roll);
+
+        if (rules.winCondition.hasWon(player)) {
+            Console.log(player.getName() + " has won the game!", player.getName());
+            return true;
         }
 
-        player.setPosition(newPosition);
-        return player;
+        return false;
     }
 
     private int rollDie() {

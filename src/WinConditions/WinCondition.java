@@ -1,7 +1,11 @@
 package WinConditions;
 
-import Boards.Board;
+import Players.Player;
 
 public interface WinCondition {
-    boolean hasWon(int PlayerPosition, int WinningPosition, int Roll);
+    boolean canMove(Player player, int roll);
+
+    default boolean hasWon(Player player) {
+        return player.getPathIndex() == (player.getPath().length - 1);  // The player is at the final position in their path (win)
+    }
 }

@@ -1,3 +1,5 @@
+package Game;
+
 import HitConditions.HitCondition;
 import WinConditions.WinCondition;
 
@@ -16,7 +18,7 @@ public class Ruleset {
 
     @Override
     public String toString() {
-        return "Ruleset(numberOfDice=" + numberOfDice
+        return "Main.Ruleset(numberOfDice=" + numberOfDice
                 + ", numberOfPlayers=" + numberOfPlayers
                 + ", winCondition=" + winCondition.getClass()
                 + ", hitCondition=" + hitCondition.getClass()

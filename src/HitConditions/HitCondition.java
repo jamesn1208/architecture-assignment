@@ -1,6 +1,7 @@
 package HitConditions;
-import java.util.ArrayList;
+
+import Players.Player;
 
 public interface HitCondition {
-    boolean movePlayer(int targetTile, ArrayList<Integer> playerPositions);
+    boolean movePlayer(Player[] players, Player currentPlayer, int roll);
 }

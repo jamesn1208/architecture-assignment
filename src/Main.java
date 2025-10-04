@@ -1,28 +1,24 @@
 import Boards.*;
 import HitConditions.*;
 import WinConditions.*;
-
-import java.util.Arrays;
+import Game.*;
 
 public class Main {
     public static void main(String[] args) {
         // Standard
-        Ruleset rules = new Ruleset(2, new StandardWinCondition(), new StandardHitCondition(), 2);
-        Board board = new StandardBoard();
-        BaseGame game = new BaseGame(rules, board);
-        System.out.println(Arrays.toString(board.getTailMap().get(9)));
-        System.out.println(Arrays.toString(game.players));
+        Ruleset standardRules = new Ruleset(2, new StandardWinCondition(), new StandardHitCondition(), 2);
+        Game standardGame = new Game(standardRules, new StandardBoard());
 
-//        game.start();
-//
-//        System.out.println(" ");
-//        System.out.println("---");
-//        System.out.println(" ");
-//
-//        // Variation
-//        Ruleset variation = new Ruleset(1, new VariationWinCondition(), new VariationHitCondition(), 4);
-//        BaseGame variationGame = new BaseGame(variation, new LargeBoard());
-//
-//        variationGame.start();
+        standardGame.start();
+
+        System.out.println(" ");
+        System.out.println("---");
+        System.out.println(" ");
+
+        // Variation
+        Ruleset variation = new Ruleset(1, new VariationWinCondition(), new VariationHitCondition(), 4);
+        Game variationGame = new Game(variation, new LargeBoard());
+
+        variationGame.start();
     }
 }
