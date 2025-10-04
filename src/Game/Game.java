@@ -21,10 +21,16 @@ public class Game {
 
     @Override
     public String toString() {
-        return "Main.BaseGame(rules=" + rules + ", board=" + board.getClass() + ", players=" + Arrays.toString(players) + ")";
+        return "Game(rules=" + rules + ", board=" + board.getClass() + ", players=" + Arrays.toString(players) + ")";
     }
 
     public void start() {
+        System.out.println("++ Starting a new game ++" +
+                "\nRules: " + rules +
+                "\nBoard: " + board +
+                "\n+++++++++++++++++++++++++" +
+                "\n");
+
         while (true) {
             for (Player player : players) {
                 boolean turn = takeTurn(player);

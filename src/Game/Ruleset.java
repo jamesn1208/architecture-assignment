@@ -18,10 +18,10 @@ public class Ruleset {
 
     @Override
     public String toString() {
-        return "Main.Ruleset(numberOfDice=" + numberOfDice
+        return "Ruleset(numberOfDice=" + numberOfDice
                 + ", numberOfPlayers=" + numberOfPlayers
-                + ", winCondition=" + winCondition.getClass()
-                + ", hitCondition=" + hitCondition.getClass()
+                + ", winCondition=" + winCondition.getClass().getSimpleName()
+                + ", hitCondition=" + hitCondition.getClass().getSimpleName()
                 + ")";
     }
 }

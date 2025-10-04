@@ -51,12 +51,12 @@ public class Player {
             }
             Console.log(name + " moved from " + oldPosition + " to " + currentPosition, name);
         } else {
-            Console.log(name + " forfeits their turn and remains at " + currentPosition, name);
+            Console.log(name + " overshoots and forfeits their turn, remaining at " + currentPosition, name);
         }
     }
 
     @Override
     public String toString() {
-        return "Players.Player(name=" + name + ", currentPosition=" + currentPosition + ", winCondition=" + winCondition.getClass() + ", path=" + Arrays.toString(path) +  ", pathIndex=" + pathIndex + ")";
+        return "Players.Player(name=" + name + ", currentPosition=" + currentPosition + ", winCondition=" + winCondition.getClass().getSimpleName() + ", path=" + Arrays.toString(path) +  ", pathIndex=" + pathIndex + ")";
     }
 }
