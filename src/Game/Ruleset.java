@@ -9,7 +9,16 @@ public class Ruleset {
     public WinCondition winCondition;
     public HitCondition hitCondition;
 
-    public Ruleset(int numberOfDice, WinCondition winCondition, HitCondition hitCondition, int numberOfPlayers) {
+    public Ruleset(int numberOfDice, int numberOfPlayers, WinCondition winCondition, HitCondition hitCondition) {
+        // Input validation
+        if (numberOfDice < 1) {
+            throw new IllegalArgumentException("There must be at least one die.");
+        }
+        if (numberOfPlayers < 1 || numberOfPlayers > 4) {
+            throw new IllegalArgumentException("Number of players must be between 1 and 4.");
+        }
+
+        // Assignment
         this.numberOfDice = numberOfDice;
         this.numberOfPlayers = numberOfPlayers;
         this.winCondition = winCondition;

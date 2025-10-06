@@ -1,14 +1,14 @@
 package Boards;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 
 import static Utils.Constants.*;
 
 public abstract class Board {
     private final int numberOfTiles;
-    private final int numberOfTails; // This is equal to the number of players
+    private final int numberOfTails; // This SHOULD be equal to the number of players
     private final int tailSize;
-    private final LinkedHashMap<Integer, String[]> tailMap = new LinkedHashMap<>();
+    private final HashMap<Integer, String[]> tailMap = new HashMap<>();
 
     public Board(int numberOfTiles, int numberOfTails, int tailSize) {
         this.numberOfTiles = numberOfTiles;
@@ -46,7 +46,11 @@ public abstract class Board {
         return numberOfTiles;
     }
 
-    public LinkedHashMap<Integer, String[]> getTailMap() {
+    public int getNumberOfTails() {
+        return numberOfTails;
+    }
+
+    public HashMap<Integer, String[]> getTailMap() {
         return tailMap;
     }
 }

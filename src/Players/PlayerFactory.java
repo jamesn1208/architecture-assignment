@@ -1,15 +1,13 @@
 package Players;
 
 import Boards.Board;
-import WinConditions.WinCondition;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static Utils.Constants.*;
 
 public class PlayerFactory {
-    public static Player[] manufacture(int numOfPlayers, Board board, WinCondition winCondition) {
+    public static Player[] manufacture(int numOfPlayers, Board board) {
         if (numOfPlayers < 1 || numOfPlayers > 4) {
             throw new IllegalArgumentException("Number of players must be between 1 and 4.");
         }
@@ -17,27 +15,34 @@ public class PlayerFactory {
         Player[] players = new Player[numOfPlayers];
 
         for (int index = 0; index < numOfPlayers; index++) {
-            ArrayList<String> path = new ArrayList<>();
+            String[] normalTiles = new String[board.getNumberOfTiles()];
+            int normalTilesIndex = 0;
+
             int startPos = (index * PLAYER_TILE_GAP) + 1;
             int iters = 0;
 
             // Up to the end of the board
             for (int i = startPos; i <= board.getNumberOfTiles(); i++) {
+                normalTiles[normalTilesIndex] = String.valueOf(i);
                 iters += 1;
-                path.add(String.valueOf(i));
+                normalTilesIndex += 1;
             }
 
             // Reset back to 1, continue for the remaining iterations
             for (int i = 1; i <= (board.getNumberOfTiles() - iters); i++) {
-                path.add(String.valueOf(i));
+                normalTiles[normalTilesIndex] = String.valueOf(i);
+                normalTilesIndex += 1;
             }
 
-            // Add the tail values to the end of the ArrayList
-            String[] tail = board.getTailMap().get(Integer.valueOf(path.getLast()));
-            path.addAll(Arrays.asList(tail));
+            // Create a new Array for the tiles in the tail for this player
+            String[] tailTiles = board.getTailMap().get(Integer.valueOf(normalTiles[normalTiles.length - 1]));
+
+            // Combine the two Arrays
+            String[] path = Arrays.copyOf(normalTiles, normalTiles.length + tailTiles .length);
+            System.arraycopy(tailTiles , 0, path, normalTiles.length, tailTiles .length);
 
             // Create player, add to the 'players' Array
-            players[index] = new Player(NAMES[index], winCondition, path.getFirst(), path.toArray(new String[0]));
+            players[index] = new Player(NAMES[index], path[0], path);
         }
 
         return players;

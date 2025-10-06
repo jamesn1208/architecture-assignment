@@ -11,10 +11,15 @@ public class Game {
     private final Ruleset rules;
     private final Board board;
     public Player[] players;
+    private Player winner;
 
     public Game(Ruleset rules, Board board) {
+        if (board.getNumberOfTails() != rules.numberOfPlayers) {
+            throw new IllegalArgumentException("Each player must have one tail each on the board. Number of tails on the board: " + board.getNumberOfTails() + ", number of players: " + rules.numberOfPlayers);
+        }
+
         this.players = new Player[rules.numberOfPlayers];
-        this.players = PlayerFactory.manufacture(rules.numberOfPlayers, board, rules.winCondition);
+        this.players = PlayerFactory.manufacture(rules.numberOfPlayers, board);
         this.rules = rules;
         this.board = board;
     }
@@ -22,6 +27,10 @@ public class Game {
     @Override
     public String toString() {
         return "Game(rules=" + rules + ", board=" + board.getClass() + ", players=" + Arrays.toString(players) + ")";
+    }
+
+    public Player getWinner() {
+        return winner;
     }
 
     public void start() {
@@ -49,10 +58,16 @@ public class Game {
             return false;
         }
 
-        player.move(roll);
+        if (rules.winCondition.canMove(player, roll)) {
+            player.move(roll);
+        } else {
+            Console.log(player.getName() + " overshoots and forfeits their turn, remaining at " + player.getPosition(), player.getName());
+            return false;
+        }
 
         if (rules.winCondition.hasWon(player)) {
             Console.log(player.getName() + " has won the game!", player.getName());
+            winner = player;
             return true;
         }
 

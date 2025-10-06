@@ -18,4 +18,10 @@ public class Console {
             System.out.println(message);
         }
     }
+
+    public static void breakLine() {
+        System.out.println(" ");
+        System.out.println("---");
+        System.out.println(" ");
+    }
 }
