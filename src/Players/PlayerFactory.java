@@ -8,8 +8,8 @@ import static Utils.Constants.*;
 
 public class PlayerFactory {
     public static Player[] manufacture(int numOfPlayers, Board board) {
-        if (numOfPlayers < 1 || numOfPlayers > 4) {
-            throw new IllegalArgumentException("Number of players must be between 1 and 4.");
+        if (numOfPlayers < 1) {
+            throw new IllegalArgumentException("At least 1 player required for the game to run.");
         }
 
         Player[] players = new Player[numOfPlayers];
