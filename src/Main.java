@@ -15,7 +15,7 @@ public class Main {
     // Standard
     Ruleset standardRules =
         new Ruleset(2, 2, new StandardWinCondition(), new StandardHitCondition());
-    Game standardGame = new Game(standardRules, new StandardBoard());
+    Game standardGame = new Game(standardRules, new StandardBoard(), 1760011319523L);
 
     standardGame.start();
     winners.add(standardGame.getWinner().getName());

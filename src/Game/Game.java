@@ -6,14 +6,22 @@ import Players.PlayerFactory;
 import Utils.Console;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class Game {
   private final Ruleset rules;
   private final Board board;
-  public Player[] players;
+  private final Random random;
+  private final long seed;
+
+  private Player[] players;
   private Player winner;
 
   public Game(Ruleset rules, Board board) {
+    this(rules, board, System.currentTimeMillis());
+  }
+
+  public Game(Ruleset rules, Board board, long seed) {
     if (board.getNumberOfTails() != rules.numberOfPlayers) {
       throw new IllegalArgumentException(
           "Each player must have one tail each on the board. Number of tails on the board: "
@@ -24,6 +32,9 @@ public class Game {
 
     this.players = new Player[rules.numberOfPlayers];
     this.players = PlayerFactory.manufacture(rules.numberOfPlayers, board);
+    this.seed = seed;
+    this.random = new Random(this.seed);
+
     this.rules = rules;
     this.board = board;
   }
@@ -36,6 +47,8 @@ public class Game {
         + board.getClass()
         + ", players="
         + Arrays.toString(players)
+        + ", seed="
+        + seed
         + ")";
   }
 
@@ -50,13 +63,14 @@ public class Game {
             + rules
             + "\nBoard: "
             + board
+            + "\nDice Seed: "
+            + seed
             + "\n+++++++++++++++++++++++++"
             + "\n");
 
     while (true) {
       for (Player player : players) {
-        boolean turn = takeTurn(player);
-        if (turn) {
+        if (takeTurn(player)) {
           return;
         }
       }
@@ -95,7 +109,7 @@ public class Game {
     int roll = 0;
 
     for (int i = 0; i < rules.numberOfDice; i++) {
-      roll += (int) (Math.random() * 6) + 1;
+      roll += random.nextInt(6) + 1;
     }
 
     return roll;
