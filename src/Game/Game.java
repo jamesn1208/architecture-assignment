@@ -13,15 +13,26 @@ public class Game {
   private final Board board;
   private final Random random;
   private final long seed;
+  private final Integer[] rolls;
+  private int rollIndex = 0;
 
   private Player[] players;
   private Player winner;
+  private State state = State.READY;
 
   public Game(Ruleset rules, Board board) {
-    this(rules, board, System.currentTimeMillis());
+    this(rules, board, System.currentTimeMillis(), new Integer[0]);
   }
 
   public Game(Ruleset rules, Board board, long seed) {
+    this(rules, board, seed, new Integer[0]);
+  }
+
+  public Game(Ruleset rules, Board board, Integer[] rolls) {
+    this(rules, board, System.currentTimeMillis(), rolls);
+  }
+
+  private Game(Ruleset rules, Board board, long seed, Integer[] rolls) {
     if (board.getNumberOfTails() != rules.numberOfPlayers) {
       throw new IllegalArgumentException(
           "Each player must have one tail each on the board. Number of tails on the board: "
@@ -34,6 +45,7 @@ public class Game {
     this.players = PlayerFactory.manufacture(rules.numberOfPlayers, board);
     this.seed = seed;
     this.random = new Random(this.seed);
+    this.rolls = rolls;
 
     this.rules = rules;
     this.board = board;
@@ -56,7 +68,13 @@ public class Game {
     return winner;
   }
 
+  public State getState() {
+    return state;
+  }
+
   public void start() {
+    state = State.IN_PLAY;
+
     System.out.println(
         "++ Starting a new game ++"
             + "\nRules: "
@@ -71,6 +89,7 @@ public class Game {
     while (true) {
       for (Player player : players) {
         if (takeTurn(player)) {
+          state = State.COMPLETE;
           return;
         }
       }
@@ -78,7 +97,19 @@ public class Game {
   }
 
   private boolean takeTurn(Player player) {
-    int roll = rollDie();
+    int roll;
+
+    if (this.rolls.length > 0 ) {
+      try {
+        roll = this.rolls[rollIndex];
+        this.rollIndex += 1;
+      } catch (ArrayIndexOutOfBoundsException e) {
+        throw new RuntimeException("Not enough rolls provided, unable to continue simulation");
+      }
+    } else {
+      roll = rollDie();
+    }
+
     Console.log(player.getName() + " rolled a " + roll, player.getName());
 
     if (!rules.hitCondition.movePlayer(players, player, roll)) {

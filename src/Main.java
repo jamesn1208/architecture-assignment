@@ -15,7 +15,8 @@ public class Main {
     // Standard
     Ruleset standardRules =
         new Ruleset(2, 2, new StandardWinCondition(), new StandardHitCondition());
-    Game standardGame = new Game(standardRules, new StandardBoard(), 1760011319523L);
+    Game standardGame = new Game(standardRules, Board.STANDARD_BOARD, 1760011319523L);
+    System.out.println(standardGame.getState()); // 'READY'
 
     standardGame.start();
     winners.add(standardGame.getWinner().getName());
@@ -23,8 +24,9 @@ public class Main {
     breakLine();
 
     // Variation
+    //Integer[] rolls = {2, 6, 9, 12};
     Ruleset variation = new Ruleset(1, 4, new VariationWinCondition(), new VariationHitCondition());
-    Game variationGame = new Game(variation, new LargeBoard());
+    Game variationGame = new Game(variation, Board.LARGE_BOARD);
 
     variationGame.start();
     winners.add(variationGame.getWinner().getName());
