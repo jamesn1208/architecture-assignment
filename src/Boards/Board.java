@@ -4,7 +4,10 @@ import java.util.HashMap;
 
 import static Utils.Constants.*;
 
-public abstract class Board {
+public class Board {
+  public static final Board STANDARD_BOARD = new Board(18, 2, 3);
+  public static final Board LARGE_BOARD = new Board(36, 4, 6);
+
   private final int numberOfTiles;
   private final int numberOfTails; // This SHOULD be equal to the number of players
   private final int tailSize;
