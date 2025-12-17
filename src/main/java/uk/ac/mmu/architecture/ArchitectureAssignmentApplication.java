@@ -18,7 +18,6 @@ public class ArchitectureAssignmentApplication {
 	}
 
 	private void runGames() {
-
 		BoardFactory twoPlayerBoardFactory = new TwoPlayerBoardFactory();
 		Board twoPlayerBoard = twoPlayerBoardFactory.create(
 				twoPlayerBoardFactory.generatePlayers(),
