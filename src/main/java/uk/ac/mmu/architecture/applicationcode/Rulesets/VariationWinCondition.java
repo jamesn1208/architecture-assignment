@@ -6,6 +6,6 @@ import uk.ac.mmu.architecture.applicationcode.Players.Player;
 public class VariationWinCondition implements BaseWinCondition {
   @Override
   public boolean canMove(Board board, Player currentPlayer, int roll) {
-    return false;
+    return !board.wouldOvershootTail(currentPlayer, roll);
   }
 }

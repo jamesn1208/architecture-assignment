@@ -45,13 +45,7 @@ public class Board {
   public String getPlayerLocation(Player player) {
     int tailIndex = positionTailIndices.get(player);
     if (tailIndex != -1) {
-      Tail tail = null;
-      for (Tail t : this.tails) {
-        if (t.getOwner() == player) {
-          tail = t;
-          break;
-        }
-      }
+      Tail tail = findOwnedTail(player);
       if (tail != null) {
         int clampedIndex = Math.max(0, Math.min(tailIndex, tail.getPositions().length - 1));
         return tail.getPositions()[clampedIndex];
@@ -61,17 +55,64 @@ public class Board {
     return track[trackIndex];
   }
 
-  public boolean movePlayer(Player player, int roll) {
-    // If player is already in their tail, advance inside the tail
+  /**
+   * Compute the *would-be* location string for a player rolling `roll` without mutating board state.
+   */
+  public String computeTargetPosition(Player player, int roll) {
     Integer currentTailIdx = positionTailIndices.get(player);
     if (currentTailIdx != null && currentTailIdx != -1) {
-      Tail owned = null;
-      for (Tail t : tails) {
-        if (t.getOwner() == player) {
-          owned = t;
-          break;
-        }
-      }
+      Tail owned = findOwnedTail(player);
+      if (owned == null) return getPlayerLocation(player);
+      int newTailIdx = currentTailIdx + roll;
+      int clamped = newTailIdx >= owned.getPositions().length
+          ? owned.getPositions().length - 1
+          : newTailIdx;
+      return owned.getPositions()[clamped];
+    }
+
+    int absoluteNew = positionTrackIndices.get(player) + roll;
+    TailEntry entry = computeTailEntryFromTrack(player, absoluteNew);
+    if (entry != null) {
+      int idx = Math.min(entry.steps(), entry.tail().getPositions().length - 1);
+      return entry.tail().getPositions()[idx];
+    }
+
+    int newIndex = absoluteNew % track.length;
+    return track[newIndex];
+  }
+
+  /**
+   * Return true if the given player's move of `roll` would overshoot their tail's final cell.
+   * Does not mutate board state.
+   */
+  public boolean wouldOvershootTail(Player player, int roll) {
+    Integer currentTailIdx = positionTailIndices.get(player);
+    Tail owned;
+    if (currentTailIdx != null && currentTailIdx != -1) {
+      owned = findOwnedTail(player);
+      if (owned == null) return false;
+      int newTailIdx = currentTailIdx + roll;
+      return newTailIdx > (owned.getPositions().length - 1);
+    }
+
+    int absoluteNew = positionTrackIndices.get(player) + roll;
+    TailEntry entry = computeTailEntryFromTrack(player, absoluteNew);
+    if (entry == null) return false;
+    return entry.steps() > (entry.tail().getPositions().length - 1);
+  }
+
+  public boolean getNewPlayerPosition(Player player, int roll) {
+    return applyMove(player, roll);
+  }
+
+  public boolean movePlayer(Player player, int roll) {
+    return applyMove(player, roll);
+  }
+
+  private boolean applyMove(Player player, int roll) {
+    Integer currentTailIdx = positionTailIndices.get(player);
+    if (currentTailIdx != null && currentTailIdx != -1) {
+      Tail owned = findOwnedTail(player);
       if (owned == null) return false;
       int newTailIdx = currentTailIdx + roll;
       if (newTailIdx >= owned.getPositions().length) {
@@ -82,36 +123,14 @@ public class Board {
       return hasPlayerWon(player);
     }
 
-    int currentIndex = positionTrackIndices.get(player);
-    int trackLen = track.length;
-    int absoluteNew = currentIndex + roll; // may be >= trackLen (wrap)
-
-    // Check for entering owner's tail taking wrapping into account
-    for (Tail tail : tails) {
-      if (tail.getOwner() != player) continue;
-
-      int tb = tail.getBreakIndex();
-
-      // Case 1: no wrap (absoluteNew within same loop)
-      if (currentIndex < absoluteNew && currentIndex < tb && absoluteNew >= tb) {
-        int stepsIntoTail = absoluteNew - tb;
-        positionTailIndices.put(player, Math.min(stepsIntoTail, tail.getPositions().length - 1));
-        return hasPlayerWon(player);
-      }
-
-      // Case 2: wrapped around the end of track
-      if (absoluteNew >= trackLen) {
-        int adjustedTb = tb + trackLen;
-        if (currentIndex < adjustedTb && absoluteNew >= adjustedTb) {
-          int stepsIntoTail = absoluteNew - adjustedTb;
-          positionTailIndices.put(player, Math.min(stepsIntoTail, tail.getPositions().length - 1));
-          return hasPlayerWon(player);
-        }
-      }
+    int absoluteNew = positionTrackIndices.get(player) + roll;
+    TailEntry entry = computeTailEntryFromTrack(player, absoluteNew);
+    if (entry != null) {
+      positionTailIndices.put(player, Math.min(entry.steps(), entry.tail().getPositions().length - 1));
+      return hasPlayerWon(player);
     }
 
-    // Normal track move (with wrap)
-    int newIndex = absoluteNew % trackLen;
+    int newIndex = absoluteNew % track.length;
     positionTrackIndices.put(player, newIndex);
     return false;
   }
@@ -128,5 +147,39 @@ public class Board {
 
   public Player[] getPlayers() {
     return players;
+  }
+
+  private Tail findOwnedTail(Player player) {
+    for (Tail t : tails) {
+      if (t.getOwner() == player) return t;
+    }
+    return null;
+  }
+
+  private TailEntry computeTailEntryFromTrack(Player player, int absoluteNew) {
+    int currentIndex = positionTrackIndices.get(player);
+    int trackLen = track.length;
+
+    for (Tail tail : tails) {
+      if (tail.getOwner() != player) continue;
+      int tb = tail.getBreakIndex();
+
+      // Case 1: no wrap (absoluteNew within same loop)
+      if (currentIndex < absoluteNew && currentIndex < tb && absoluteNew >= tb) {
+        int stepsIntoTail = absoluteNew - tb;
+        return new TailEntry(tail, stepsIntoTail);
+      }
+
+      // Case 2: wrapped around the end of track
+      if (absoluteNew >= trackLen) {
+        int adjustedTb = tb + trackLen;
+        if (currentIndex < adjustedTb && absoluteNew >= adjustedTb) {
+          int stepsIntoTail = absoluteNew - adjustedTb;
+          return new TailEntry(tail, stepsIntoTail);
+        }
+      }
+    }
+
+    return null;
   }
 }
