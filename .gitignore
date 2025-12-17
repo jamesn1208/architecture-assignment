@@ -1,4 +1,4 @@
-HELP.md
+help.md
 target/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -26,6 +26,7 @@ target/
 /nbdist/
 /.nb-gradle/
 build/
+/src/main/java/uk/ac/mmu/architecture/OldShit/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
