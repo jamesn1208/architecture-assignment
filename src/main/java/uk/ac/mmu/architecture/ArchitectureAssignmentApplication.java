@@ -2,6 +2,7 @@ package uk.ac.mmu.architecture;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import uk.ac.mmu.architecture.applicationcode.Boards.Board;
 import uk.ac.mmu.architecture.applicationcode.Boards.BoardFactory;
 import uk.ac.mmu.architecture.applicationcode.Boards.TwoPlayerBoardFactory;
