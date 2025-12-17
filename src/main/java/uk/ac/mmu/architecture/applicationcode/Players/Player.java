@@ -2,7 +2,7 @@ package uk.ac.mmu.architecture.applicationcode.Players;
 
 import java.util.Objects;
 
-import uk.ac.mmu.architecture.infrastructure.Output.Colour;
+import uk.ac.mmu.architecture.infrastructure.Utils.Colour;
 
 public class Player {
   public static final Player PLAYER_1 = new Player("Red", "R", Colour.RED);

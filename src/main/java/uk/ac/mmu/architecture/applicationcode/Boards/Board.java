@@ -34,14 +34,6 @@ public class Board {
         '}';
   }
 
-  public HashMap<Player, Integer> getTrackPositionIndices() {
-    return positionTrackIndices;
-  }
-
-  public HashMap<Player, Integer> getTailPositionIndices() {
-    return positionTailIndices;
-  }
-
   public String getPlayerLocation(Player player) {
     int tailIndex = positionTailIndices.get(player);
     if (tailIndex != -1) {
@@ -55,9 +47,6 @@ public class Board {
     return track[trackIndex];
   }
 
-  /**
-   * Compute the *would-be* location string for a player rolling `roll` without mutating board state.
-   */
   public String computeTargetPosition(Player player, int roll) {
     Integer currentTailIdx = positionTailIndices.get(player);
     if (currentTailIdx != null && currentTailIdx != -1) {
@@ -81,10 +70,6 @@ public class Board {
     return track[newIndex];
   }
 
-  /**
-   * Return true if the given player's move of `roll` would overshoot their tail's final cell.
-   * Does not mutate board state.
-   */
   public boolean wouldOvershootTail(Player player, int roll) {
     Integer currentTailIdx = positionTailIndices.get(player);
     Tail owned;
@@ -99,10 +84,6 @@ public class Board {
     TailEntry entry = computeTailEntryFromTrack(player, absoluteNew);
     if (entry == null) return false;
     return entry.steps() > (entry.tail().getPositions().length - 1);
-  }
-
-  public boolean getNewPlayerPosition(Player player, int roll) {
-    return applyMove(player, roll);
   }
 
   public boolean movePlayer(Player player, int roll) {
@@ -164,13 +145,11 @@ public class Board {
       if (tail.getOwner() != player) continue;
       int tb = tail.getBreakIndex();
 
-      // Case 1: no wrap (absoluteNew within same loop)
-      if (currentIndex < absoluteNew && currentIndex < tb && absoluteNew >= tb) {
+      if (currentIndex < tb && absoluteNew >= tb) {
         int stepsIntoTail = absoluteNew - tb;
         return new TailEntry(tail, stepsIntoTail);
       }
 
-      // Case 2: wrapped around the end of track
       if (absoluteNew >= trackLen) {
         int adjustedTb = tb + trackLen;
         if (currentIndex < adjustedTb && absoluteNew >= adjustedTb) {

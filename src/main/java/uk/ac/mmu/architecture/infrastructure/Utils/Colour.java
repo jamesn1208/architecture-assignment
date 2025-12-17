@@ -1,4 +1,4 @@
-package uk.ac.mmu.architecture.infrastructure.Output;
+package uk.ac.mmu.architecture.infrastructure.Utils;
 
 public enum Colour {
   RED("\u001B[31m"),
