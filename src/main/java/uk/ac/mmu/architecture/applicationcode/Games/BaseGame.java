@@ -5,6 +5,8 @@ import uk.ac.mmu.architecture.infrastructure.States.GameState;
 
 public interface BaseGame {
   Player getWinner();
+
   void start();
+
   GameState getState();
 }

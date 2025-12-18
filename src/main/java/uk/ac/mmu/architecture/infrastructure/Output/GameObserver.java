@@ -4,8 +4,12 @@ import uk.ac.mmu.architecture.applicationcode.Players.Player;
 
 public interface GameObserver {
   void onMove(Player player, String newPosition, int roll);
+
   void onHit(Player movingPlayer, Player hitPlayer);
+
   void onCantMove(Player player, int roll);
+
   void onStart(Player player);
+
   void onEnd(int[] rolls, Player winner);
 }

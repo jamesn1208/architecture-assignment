@@ -20,7 +20,9 @@ public class Player {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Player player = (Player) o;
-    return Objects.equals(name, player.name) && Objects.equals(shortName, player.shortName) && colour == player.colour;
+    return Objects.equals(name, player.name)
+        && Objects.equals(shortName, player.shortName)
+        && colour == player.colour;
   }
 
   @Override
@@ -30,12 +32,19 @@ public class Player {
 
   @Override
   public String toString() {
-    return "Player{" +
-        "name='" + name + '\'' +
-        ", shortName='" + shortName + '\'' +
-        ", currentPosition='" + currentPosition + '\'' +
-        ", startIndex=" + startIndex +
-        '}';
+    return "Player{"
+        + "name='"
+        + name
+        + '\''
+        + ", shortName='"
+        + shortName
+        + '\''
+        + ", currentPosition='"
+        + currentPosition
+        + '\''
+        + ", startIndex="
+        + startIndex
+        + '}';
   }
 
   private Player(String name, String shortName, Colour colour) {

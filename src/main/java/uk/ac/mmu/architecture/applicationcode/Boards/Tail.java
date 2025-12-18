@@ -17,11 +17,14 @@ public class Tail {
 
   @Override
   public String toString() {
-    return "Tail{" +
-        "positions=" + Arrays.toString(positions) +
-        ", breakIndex=" + breakIndex +
-        ", owner=" + owner +
-        '}';
+    return "Tail{"
+        + "positions="
+        + Arrays.toString(positions)
+        + ", breakIndex="
+        + breakIndex
+        + ", owner="
+        + owner
+        + '}';
   }
 
   public String[] getPositions() {

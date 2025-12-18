@@ -19,7 +19,8 @@ public class Game implements BaseGame {
   private GameState state;
   private final List<Integer> rolls = new ArrayList<>();
 
-  public Game(Board board, Ruleset rules, GameObserver[] gameObservers, StateObserver[] stateObservers) {
+  public Game(
+      Board board, Ruleset rules, GameObserver[] gameObservers, StateObserver[] stateObservers) {
     this.state = new GameReady(stateObservers);
     this.board = board;
     this.rules = rules;
@@ -77,11 +78,13 @@ public class Game implements BaseGame {
           for (GameObserver observer : observers) {
             observer.onCantMove(player, roll);
           }
-          continue; // Skip to the next player if they cannot move (overshot end position for variation)
+          continue; // Skip to the next player if they cannot move (overshot end position for
+                    // variation)
         }
 
         String targetPosition = this.board.computeTargetPosition(player, roll);
-        Player hitPlayer = this.rules.hitCondition().hitPlayer(targetPosition, this.players, player, this.board);
+        Player hitPlayer =
+            this.rules.hitCondition().hitPlayer(targetPosition, this.players, player, this.board);
         if (hitPlayer != null) {
           for (GameObserver observer : observers) {
             observer.onHit(player, hitPlayer);

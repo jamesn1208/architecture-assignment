@@ -5,7 +5,8 @@ import uk.ac.mmu.architecture.applicationcode.Players.Player;
 
 public class VariationHitCondition implements BaseHitCondition {
   @Override
-  public Player hitPlayer(String targetPosition, Player[] players, Player currentPlayer, Board board) {
+  public Player hitPlayer(
+      String targetPosition, Player[] players, Player currentPlayer, Board board) {
     for (Player player : players) {
       if (player == currentPlayer) {
         continue;

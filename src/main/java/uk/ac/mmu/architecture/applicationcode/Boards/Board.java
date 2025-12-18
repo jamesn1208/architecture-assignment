@@ -25,13 +25,18 @@ public class Board {
 
   @Override
   public String toString() {
-    return "Board{" +
-        "players=" + Arrays.toString(players) +
-        ", positionTrackIndices=" + positionTrackIndices +
-        ", positionTailIndices=" + positionTailIndices +
-        ", track=" + Arrays.toString(track) +
-        ", tails=" + Arrays.toString(tails) +
-        '}';
+    return "Board{"
+        + "players="
+        + Arrays.toString(players)
+        + ", positionTrackIndices="
+        + positionTrackIndices
+        + ", positionTailIndices="
+        + positionTailIndices
+        + ", track="
+        + Arrays.toString(track)
+        + ", tails="
+        + Arrays.toString(tails)
+        + '}';
   }
 
   public String getPlayerLocation(Player player) {
@@ -53,9 +58,8 @@ public class Board {
       Tail owned = findOwnedTail(player);
       if (owned == null) return getPlayerLocation(player);
       int newTailIdx = currentTailIdx + roll;
-      int clamped = newTailIdx >= owned.getPositions().length
-          ? owned.getPositions().length - 1
-          : newTailIdx;
+      int clamped =
+          newTailIdx >= owned.getPositions().length ? owned.getPositions().length - 1 : newTailIdx;
       return owned.getPositions()[clamped];
     }
 
@@ -107,7 +111,8 @@ public class Board {
     int absoluteNew = positionTrackIndices.get(player) + roll;
     TailEntry entry = computeTailEntryFromTrack(player, absoluteNew);
     if (entry != null) {
-      positionTailIndices.put(player, Math.min(entry.steps(), entry.tail().getPositions().length - 1));
+      positionTailIndices.put(
+          player, Math.min(entry.steps(), entry.tail().getPositions().length - 1));
       return hasPlayerWon(player);
     }
 

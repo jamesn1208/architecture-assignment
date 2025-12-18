@@ -12,7 +12,8 @@ public class PresetDiceShaker implements DiceShaker {
   @Override
   public int shake() {
     if (currentIndex >= presetRolls.length) {
-      throw new IllegalStateException("No more preset rolls available. Games with pre-set dice rolls should cause the game to end before running out of rolls.");
+      throw new IllegalStateException(
+          "No more preset rolls available. Games with pre-set dice rolls should cause the game to end before running out of rolls.");
     }
     return presetRolls[currentIndex++];
   }

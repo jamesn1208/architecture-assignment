@@ -15,7 +15,8 @@ import uk.ac.mmu.architecture.infrastructure.Output.StateObserver;
 public class ReplayGameFacade {
   private final BaseGame replayGame;
 
-  public ReplayGameFacade(int[] rolls, BaseHitCondition hitCondition, BaseWinCondition winCondition, Board board) {
+  public ReplayGameFacade(
+      int[] rolls, BaseHitCondition hitCondition, BaseWinCondition winCondition, Board board) {
     DiceShaker presetShaker = new PresetDiceShaker(rolls);
     Ruleset replayRuleset = new Ruleset(winCondition, hitCondition, presetShaker);
     GameObserver[] gameObservers = {new ConsoleGameObserver()};
