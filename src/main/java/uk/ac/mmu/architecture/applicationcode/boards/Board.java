@@ -66,8 +66,8 @@ public class Board {
     int absoluteNew = positionTrackIndices.get(player) + roll;
     TailEntry entry = computeTailEntryFromTrack(player, absoluteNew);
     if (entry != null) {
-      int idx = Math.min(entry.steps(), entry.tail().positions().length - 1);
-      return entry.tail().positions()[idx];
+      int adjustedStep = Math.max(0, Math.min(entry.steps() - 1, entry.tail().positions().length - 1));
+      return entry.tail().positions()[adjustedStep];
     }
 
     int newIndex = absoluteNew % track.length;
@@ -87,7 +87,8 @@ public class Board {
     int absoluteNew = positionTrackIndices.get(player) + roll;
     TailEntry entry = computeTailEntryFromTrack(player, absoluteNew);
     if (entry == null) return false;
-    return entry.steps() > (entry.tail().positions().length - 1);
+    int adjustedSteps = Math.max(0, entry.steps() - 1);
+    return adjustedSteps > (entry.tail().positions().length - 1);
   }
 
   public boolean movePlayer(Player player, int roll) {
@@ -111,8 +112,9 @@ public class Board {
     int absoluteNew = positionTrackIndices.get(player) + roll;
     TailEntry entry = computeTailEntryFromTrack(player, absoluteNew);
     if (entry != null) {
+      int stepsIntoTail = Math.max(0, entry.steps() - 1);
       positionTailIndices.put(
-          player, Math.min(entry.steps(), entry.tail().positions().length - 1));
+          player, Math.min(stepsIntoTail, entry.tail().positions().length - 1));
       return hasPlayerWon(player);
     }
 
