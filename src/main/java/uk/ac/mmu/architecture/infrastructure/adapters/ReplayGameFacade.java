@@ -53,10 +53,7 @@ public class ReplayGameFacade {
     DiceShaker presetShaker = new PresetDiceShaker(rolls);
     Ruleset replayRuleset = new Ruleset(winCondition, hitCondition, presetShaker);
 
-    GameState state =
-        initialState != null
-            ? initialState
-            : new GameReady(stateObservers);
+    GameState state = initialState != null ? initialState : new GameReady(stateObservers);
 
     this.replayGame = new Game(board, replayRuleset, gameObservers, state);
   }

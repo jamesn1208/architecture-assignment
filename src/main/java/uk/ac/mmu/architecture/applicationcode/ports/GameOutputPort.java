@@ -13,4 +13,3 @@ public interface GameOutputPort {
 
   void onEnd(int[] rolls, Player winner);
 }
-

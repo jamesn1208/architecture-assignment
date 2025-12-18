@@ -43,7 +43,6 @@ public class ArchitectureAssignmentApplication {
     // Track overall success
     boolean successful = true;
 
-
     // Random Game Example
     announceGame("Random Game Example");
     Board randomGameBoard = twoPlayerBoardFactory.create();
@@ -56,7 +55,6 @@ public class ArchitectureAssignmentApplication {
             List.of(gameObserver),
             List.of(stateObserver));
     randomGame.start();
-
 
     // Basic Game Scenario 1 Example 1
     announceGame("Basic Game Scenario 1 Example 1");
@@ -76,7 +74,6 @@ public class ArchitectureAssignmentApplication {
       System.out.println("Base Game Scenario 1 Example 2 failed: Expected BLUE to win.");
     }
 
-
     // Basic Game Scenario 1 Example 2
     announceGame("Basic Game Scenario 1 Example 2");
     Board scenario1Example2Board = twoPlayerBoardFactory.create();
@@ -94,7 +91,6 @@ public class ArchitectureAssignmentApplication {
       successful = false;
       System.out.println("Base Game Scenario 1 Example 2 failed: Expected RED to win.");
     }
-
 
     // Basic Game Scenario 2
     announceGame("Basic Game Scenario 2");
@@ -114,7 +110,6 @@ public class ArchitectureAssignmentApplication {
       System.out.println("Base Game Scenario 2 failed: Expected RED to win.");
     }
 
-
     // Basic Game Scenario 3
     announceGame("Basic Game Scenario 3");
     Board scenario3Board = twoPlayerBoardFactory.create();
@@ -132,7 +127,6 @@ public class ArchitectureAssignmentApplication {
       successful = false;
       System.out.println("Base Game Scenario 3 failed: Expected BLUE to win.");
     }
-
 
     // Variation Game Scenario 1
     announceGame("Variation Game Scenario 1");
@@ -152,7 +146,6 @@ public class ArchitectureAssignmentApplication {
       System.out.println("Variation Game Scenario 1 failed: Expected BLUE to win.");
     }
 
-
     // Variation Game Scenario 2
     announceGame("Variation Game Scenario 2");
     Board scenario2BoardVariation = twoPlayerBoardFactory.create();
@@ -170,7 +163,6 @@ public class ArchitectureAssignmentApplication {
       successful = false;
       System.out.println("Variation Game Scenario 2 failed: Expected RED to win.");
     }
-
 
     // Variation Game Scenario 3
     announceGame("Variation Game Scenario 3");
@@ -190,11 +182,11 @@ public class ArchitectureAssignmentApplication {
       System.out.println("Variation Game Scenario 3 failed: Expected BLUE to win.");
     }
 
-
     // Advanced Game Scenario 1
     announceGame("Advanced Game Scenario 1");
     Board scenario1BoardAdvanced = fourPlayerBoardFactory.create();
-    int[] scenario1RollsAdvanced = new int[] {7, 3, 8, 5, 7, 6, 8, 7, 6, 8, 2, 4, 4, 8, 5, 7, 8, 3, 9, 9, 7, 5, 7, 9};
+    int[] scenario1RollsAdvanced =
+        new int[] {7, 3, 8, 5, 7, 6, 8, 7, 6, 8, 2, 4, 4, 8, 5, 7, 8, 3, 9, 9, 7, 5, 7, 9};
     ReplayGameFacade scenario1GameAdvanced =
         new ReplayGameFacade(
             scenario1RollsAdvanced,
@@ -209,11 +201,11 @@ public class ArchitectureAssignmentApplication {
       System.out.println("Advanced Game Scenario 2 failed: Expected YELLOW to win.");
     }
 
-
-  // Advanced Game Scenario 2
-  announceGame("Advanced Game Scenario 2");
-  Board scenario2BoardAdvanced = fourPlayerBoardFactory.create();
-  int[] scenario2RollsAdvanced = new int[] {11, 11, 8, 10, 10, 7, 2, 4, 6, 8, 4, 9, 9, 10, 7, 11, 10, 8, 5, 7};
+    // Advanced Game Scenario 2
+    announceGame("Advanced Game Scenario 2");
+    Board scenario2BoardAdvanced = fourPlayerBoardFactory.create();
+    int[] scenario2RollsAdvanced =
+        new int[] {11, 11, 8, 10, 10, 7, 2, 4, 6, 8, 4, 9, 9, 10, 7, 11, 10, 8, 5, 7};
     ReplayGameFacade scenario2GameAdvanced =
         new ReplayGameFacade(
             scenario2RollsAdvanced,

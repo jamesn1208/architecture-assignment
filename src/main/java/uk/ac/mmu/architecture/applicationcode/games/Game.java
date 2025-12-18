@@ -20,10 +20,7 @@ public class Game implements BaseGame, GameBoundary {
   private final List<Integer> rolls = new ArrayList<>();
 
   public Game(
-      Board board,
-      Ruleset rules,
-      List<GameOutputPort> gameObservers,
-      GameState initialState) {
+      Board board, Ruleset rules, List<GameOutputPort> gameObservers, GameState initialState) {
     // The initial state is injected (implemented by infrastructure). Game core uses only the
     // application-level GameState contract.
     this.state = initialState;

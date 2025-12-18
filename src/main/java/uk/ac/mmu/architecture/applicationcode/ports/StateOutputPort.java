@@ -5,4 +5,3 @@ public interface StateOutputPort {
 
   void onFinalState(String finalStateDescription);
 }
-

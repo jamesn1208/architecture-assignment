@@ -20,7 +20,10 @@ public class RandomGameFacade {
   private final BaseGame randomGame;
 
   public RandomGameFacade(
-      DiceShaker diceShaker, BaseHitCondition hitCondition, BaseWinCondition winCondition, Board board) {
+      DiceShaker diceShaker,
+      BaseHitCondition hitCondition,
+      BaseWinCondition winCondition,
+      Board board) {
     this(
         diceShaker,
         hitCondition,
@@ -51,10 +54,7 @@ public class RandomGameFacade {
       GameState initialState) {
     Ruleset replayRuleset = new Ruleset(winCondition, hitCondition, diceShaker);
 
-    GameState state =
-        initialState != null
-            ? initialState
-            : new GameReady(stateObservers);
+    GameState state = initialState != null ? initialState : new GameReady(stateObservers);
 
     this.randomGame = new Game(board, replayRuleset, gameObservers, state);
   }
