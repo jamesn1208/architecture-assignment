@@ -8,6 +8,7 @@ import uk.ac.mmu.architecture.applicationcode.boards.Board;
 import uk.ac.mmu.architecture.applicationcode.boards.BoardFactory;
 import uk.ac.mmu.architecture.applicationcode.boards.FourPlayerBoardFactory;
 import uk.ac.mmu.architecture.applicationcode.boards.TwoPlayerBoardFactory;
+import uk.ac.mmu.architecture.applicationcode.dice.DoubleDiceShaker;
 import uk.ac.mmu.architecture.applicationcode.dice.SingleDiceShaker;
 import uk.ac.mmu.architecture.applicationcode.players.Player;
 import uk.ac.mmu.architecture.infrastructure.adapters.RandomGameFacade;
@@ -43,18 +44,31 @@ public class ArchitectureAssignmentApplication {
     // Track overall success
     boolean successful = true;
 
-    // Random Game Example
-    announceGame("Random Game Example");
-    Board randomGameBoard = twoPlayerBoardFactory.create();
-    RandomGameFacade randomGame =
+    // Random Game Example 1 die
+    announceGame("Random Game Example 1 die");
+    Board randomGame1Board = twoPlayerBoardFactory.create();
+    RandomGameFacade random1Game =
         new RandomGameFacade(
             new SingleDiceShaker(),
             new StandardHitCondition(),
             new StandardWinCondition(),
-            randomGameBoard,
+            randomGame1Board,
             List.of(gameObserver),
             List.of(stateObserver));
-    randomGame.start();
+    random1Game.start();
+
+    // Random Game Example 2 dice
+    announceGame("Random Game Example 2 dice");
+    Board randomGame2Board = twoPlayerBoardFactory.create();
+    RandomGameFacade random2Game =
+        new RandomGameFacade(
+            new DoubleDiceShaker(new SingleDiceShaker()),
+            new StandardHitCondition(),
+            new StandardWinCondition(),
+            randomGame2Board,
+            List.of(gameObserver),
+            List.of(stateObserver));
+    random2Game.start();
 
     // Basic Game Scenario 1 Example 1
     announceGame("Basic Game Scenario 1 Example 1");
