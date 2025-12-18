@@ -1,5 +1,10 @@
 # Software Design & Architecture | 6G5Z0059 1CWK100
 
+## Metadata
+- **Written with**: `Oracle OpenJDK 25`
+- **Requires**: `Spring Boot >=4.0.0`
+- **Package Manager**: `Maven`
+
 ## Authors
 
 - **James Nash** - *Student @ MMU* - [GitHub Profile](https://github.com/jamesn1208)
