@@ -19,11 +19,7 @@ public class ArchitectureAssignmentApplication {
 
   private void runGames() {
     BoardFactory twoPlayerBoardFactory = new TwoPlayerBoardFactory();
-    Board twoPlayerBoard =
-        twoPlayerBoardFactory.create(
-            twoPlayerBoardFactory.generatePlayers(),
-            twoPlayerBoardFactory.generateTrack(),
-            twoPlayerBoardFactory.generateTails());
+    Board twoPlayerBoard = twoPlayerBoardFactory.create();
 
     int[] rolls = {6, 6, 6, 6, 3, 4, 3, 4};
 
