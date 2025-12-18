@@ -39,10 +39,10 @@ public class FourPlayerBoardFactory implements BoardFactory {
       yellowPath[i] = "Y" + (i + 1);
     }
 
-    tails[0] = new Tail(redPath, 17, players[0]);
+    tails[0] = new Tail(redPath, 35, players[0]);
     tails[1] = new Tail(bluePath, 8, players[1]);
-    tails[2] = new Tail(greenPath, 26, players[2]);
-    tails[3] = new Tail(yellowPath, 35, players[3]);
+    tails[2] = new Tail(greenPath, 17, players[2]);
+    tails[3] = new Tail(yellowPath, 26, players[3]);
 
     return tails;
   }

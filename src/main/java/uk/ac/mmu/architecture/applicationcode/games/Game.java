@@ -4,7 +4,6 @@ import uk.ac.mmu.architecture.applicationcode.boards.Board;
 import uk.ac.mmu.architecture.applicationcode.players.Player;
 import uk.ac.mmu.architecture.applicationcode.rulesets.Ruleset;
 import uk.ac.mmu.architecture.applicationcode.ports.GameOutputPort;
-import uk.ac.mmu.architecture.applicationcode.ports.StateOutputPort;
 import uk.ac.mmu.architecture.applicationcode.states.GameState;
 import uk.ac.mmu.architecture.applicationcode.ports.GameBoundary;
 
@@ -24,7 +23,6 @@ public class Game implements BaseGame, GameBoundary {
       Board board,
       Ruleset rules,
       List<GameOutputPort> gameObservers,
-      List<StateOutputPort> stateObservers,
       GameState initialState) {
     // The initial state is injected (implemented by infrastructure). Game core uses only the
     // application-level GameState contract.

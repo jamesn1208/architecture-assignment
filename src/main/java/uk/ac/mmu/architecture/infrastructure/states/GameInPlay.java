@@ -16,14 +16,14 @@ public class GameInPlay implements GameState {
   @Override
   public void handle(GameBoundary game) {
     // Any future game logic could go here (that needs to be run whilst the game is also in play)
-    System.out.println("Game is in play!");
+    System.out.println("Game state: InPlay");
   }
 
   @Override
   public GameState nextState() {
     if (this.observers != null) {
       for (StateOutputPort observer : this.observers) {
-        observer.onStateChange("The game state has transitioned from InPlay to Finished.");
+        observer.onStateChange("Game state InPlay -> Finished.");
       }
     }
     return new GameFinished(this.observers);

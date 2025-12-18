@@ -28,7 +28,7 @@ public class GameReady implements GameState {
   public GameState nextState() {
     if (this.observers != null) {
       for (StateOutputPort observer : this.observers) {
-        observer.onStateChange("The game state has transitioned from Ready to InPlay.");
+        observer.onStateChange("Game state Ready -> InPlay.");
       }
     }
     return new GameInPlay(this.observers);
