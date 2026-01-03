@@ -339,7 +339,7 @@ I have implemented a State Machine for my `Game` class to manage the different s
 `Finished`). This allows for a clear separation of concerns between the different states of the game, as well as giving
 me another opportunity to provide an Observer layer for future extensibility. Each state is represented by a separate 
 class that implements the `GameState` interface, allowing for easy extension in the future if new states are to be 
-added. The `Game` class maintains a reference to the current state and delegates state-specific behavior to the
+added. The `Game` class maintains a reference to the current state and delegates state-specific behaviour to the
 current state object. This also helps to enforce the rules of the game, as certain actions are only allowed in certain 
 states. For example, the game loop only continues whilst the game is in the `InPlay` state (if you trigger the `start()` 
 method again, it will not continue to loop). 
