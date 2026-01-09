@@ -160,6 +160,7 @@ game events, while a GUI observer might be used for game state changes.
 
 Here are two diagrams illustrating my Observer Pattern implementation:
 
+**ConsoleGameObserver**
 ```mermaid
 classDiagram
     direction LR
@@ -209,6 +210,7 @@ classDiagram
     ConsoleGameOutputAdapter --> ConsoleGameObserver : delegatesTo
 ```
 
+**ConsoleStateObserver**
 ```mermaid
 classDiagram
     direction LR
