@@ -50,9 +50,9 @@ public class Player {
   private Player(String name, String shortName, Colour colour) {
     this.name = name;
     this.shortName = shortName;
-    this.currentPosition = null; // This is defined by the setter after creation
-    this.startIndex = -1; // This is defined by the setter after creation
     this.colour = colour;
+    this.currentPosition = null; // Defined by the setter after creation
+    this.startIndex = -1; // Defined by the setter after creation
   }
 
   public boolean validate() {

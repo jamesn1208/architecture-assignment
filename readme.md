@@ -16,6 +16,7 @@
     - [Decorator Pattern](#decorator-pattern)
     - [Factory Pattern](#factory-pattern)
     - [Observer Pattern](#observer-pattern)
+    - [Facade Pattern](#facade-pattern)
 - [Principles of Software Design](#principles-of-software-design)
     - [SOLID Principles](#solid-principles)
     - [DRY Principle](#dry-principle)
@@ -28,7 +29,7 @@
     - [State Machines](#state-machines)
     - [Four Players](#four-players)
     - [Game Rule Variations](#game-rule-variations)
-- [Small Things That I Like](#small-things-that-i-like-)
+- [Notes](#notes)
 - [Conclusion](#conclusion)
 
 ## Introduction
@@ -157,7 +158,7 @@ changes (e.g. ready, in play, finished). This allows for a clear separation of c
 different types of observers to be used for different purposes. For example, a console observer might be used for
 game events, while a GUI observer might be used for game state changes.
 
-Here is a class diagram illustrating my Observer Pattern implementation:
+Here are two diagrams illustrating my Observer Pattern implementation:
 
 ```mermaid
 classDiagram
@@ -172,75 +173,93 @@ classDiagram
         + start()
         + validate()
     }
-    class Board
-    class Ruleset
-    class Player
 
-class GameOutputPort {
-  <<interface>>
-}
-class GameObserver {
-  <<interface>>
-}
+    class GameOutputPort {
+      <<interface>>
+    }
 
-class ConsoleGameOutputAdapter {
-- ConsoleGameObserver delegate
-+ onMove(player, oldPosition, roll)
-+ onHit(movingPlayer, hitPlayer)
-+ onCantMove(player, roll)
-+ onStart(player)
-+ onEnd(rolls, winner)
-}
-class ConsoleGameObserver {
-+ onMove(player, oldPosition, roll)
-+ onHit(movingPlayer, hitPlayer)
-+ onCantMove(player, roll)
-+ onStart(player)
-+ onEnd(rolls, winner)
- }
+    class GameObserver {
+      <<interface>>
+    }
 
-Game --> "0..*" GameOutputPort: observers
-Game --> Board
-Game --> Ruleset
-Game --> Player: players
-ConsoleGameOutputAdapter ..|> GameOutputPort
-ConsoleGameObserver ..|> GameObserver
-ConsoleGameOutputAdapter --> ConsoleGameObserver: delegatesTo
+    class ConsoleGameOutputAdapter {
+      - ConsoleGameObserver delegate
+      + onMove(player, oldPosition, roll)
+      + onHit(movingPlayer, hitPlayer)
+      + onCantMove(player, roll)
+      + onStart(player)
+      + onEnd(rolls, winner)
+    }
 
-class StateOutputPort {
-<<interface>>
-}
+    class ConsoleGameObserver {
+      + onMove(player, oldPosition, roll)
+      + onHit(movingPlayer, hitPlayer)
+      + onCantMove(player, roll)
+      + onStart(player)
+      + onEnd(rolls, winner)
+    }
 
-class ConsoleStateOutputAdapter {
-- ConsoleStateObserver delegate
-+ onStateChange(desc)
-+ onFinalState(desc)
-}
-class ConsoleStateObserver {
-+ onStateChange(desc)
-+ onFinalState(desc)
-}
+    Game --> "0..*" GameOutputPort : observers
+    Game --> Board
+    Game --> Ruleset
+    Game --> Player : players
 
-ConsoleStateOutputAdapter ..|> StateOutputPort
-ConsoleStateObserver ..|> StateOutputPort
-ConsoleStateOutputAdapter --> ConsoleStateObserver: delegatesTo
-
-class GameState {
-<<interface>>
-}
-class GameReady
-class GameInPlay
-class GameFinished
-
-GameState <|-- GameReady
-GameState <|-- GameInPlay
-GameState <|-- GameFinished
-
-Game --> GameState: state
-GameReady --> "0..*" StateOutputPort: observers
-GameInPlay --> "0..*" StateOutputPort: observers
-GameFinished --> "0..*" StateOutputPort: observers
+    ConsoleGameOutputAdapter ..|> GameOutputPort
+    ConsoleGameObserver ..|> GameObserver
+    ConsoleGameOutputAdapter --> ConsoleGameObserver : delegatesTo
 ```
+
+```mermaid
+classDiagram
+    direction LR
+
+    class Game {
+        - GameState state
+    }
+
+    class StateOutputPort {
+      <<interface>>
+    }
+
+    class ConsoleStateOutputAdapter {
+      - ConsoleStateObserver delegate
+      + onStateChange(desc)
+      + onFinalState(desc)
+    }
+
+    class ConsoleStateObserver {
+      + onStateChange(desc)
+      + onFinalState(desc)
+    }
+
+    class GameState {
+      <<interface>>
+    }
+    class GameReady
+    class GameInPlay
+    class GameFinished
+
+    Game --> GameState : state
+    ConsoleStateOutputAdapter ..|> StateOutputPort
+    ConsoleStateObserver ..|> StateOutputPort
+    ConsoleStateOutputAdapter --> ConsoleStateObserver : delegatesTo
+
+    GameReady --> "0..*" StateOutputPort : observers
+    GameInPlay --> "0..*" StateOutputPort : observers
+    GameFinished --> "0..*" StateOutputPort : observers
+```
+
+### Facade Pattern
+I have abstracted the difficulty of creating two different types of game, `RandomGame` and `ReplayGame`, behind simple
+facade classes `RandomGameFacade` and `ReplayGameFacade`. This allows for easy creation of these game types, where less
+complex data is provided, and the difficulty is abstracted away from the user. This also adheres to the Single
+Responsibility Principle (part of SOLID), as the facade classes are only concerned with creating the game objects, while 
+the `Game` class is only concerned with the game logic. These facade classes allow me to have just one `Game` class
+because the way in which the class is written would make it difficult to create both types of game without prior
+knowledge of how to set it up. They are set up using overloaded constructors that accept different parameters depending 
+on the type of game being created. This allows for default parameters to be used where necessary, such as making it so
+you don't have to provide a list of observers, so long as you want it to use the console observers. This could be
+expanded in the future for other types of games if needed.
 
 ## Principles of Software Design
 
@@ -380,8 +399,11 @@ storing the rules of the game. This would also allow me to add validation to the
 example, to ensure that the hit and win conditions are compatible with each other, or a die shaker type is valid for the 
 game.
 
-## Small Things That I Like :)
-1. The use of multiple types of Java object.
+## Notes
+These are some additional notes on things that were too small / insignificant to have their own headers, but I still
+believe are worth mentioning:
+
+1. Used multiple types of Java object:
     - Interfaces
     - Classes
     - Records
@@ -401,5 +423,3 @@ Ports and Adapters Architecture has further enhanced the separation of concerns 
 logic. Finally, the advanced features such as State Machines, support for four players, and game rule variations have
 added depth and flexibility to the game. Overall, these implementations have contributed to a well-designed and
 robust program that is easy to understand, maintain, and extend in the future. 
-
-> And most importantly, hopefully get me good marks on my assignment!

@@ -12,7 +12,7 @@ public class FourPlayerBoardFactory implements BoardFactory {
     Player[] players = generatePlayers();
     String[] track = generateTrack();
     Tail[] tails = generateTails(players);
-    // defensively copy arrays if needed: Arrays.copyOf(...)
+
     return new Board(players, track, tails);
   }
 

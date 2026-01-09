@@ -15,7 +15,7 @@ public class GameFinished implements GameState {
 
   @Override
   public void handle(GameBoundary game) {
-    // Any future game cleanup could go here
+    // Any future game clean-up could go here
     System.out.println("Game has finished!");
   }
 

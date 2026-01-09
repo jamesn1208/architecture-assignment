@@ -13,7 +13,6 @@ public class GameStatePortAdapter implements GameStatePort {
 
   @Override
   public String getStateDescription() {
-    // Provide a simple description based on the delegate class name
     return delegate.getClass().getSimpleName();
   }
 

@@ -21,8 +21,6 @@ public class Game implements BaseGame, GameBoundary {
 
   public Game(
       Board board, Ruleset rules, List<GameOutputPort> gameObservers, GameState initialState) {
-    // The initial state is injected (implemented by infrastructure). Game core uses only the
-    // application-level GameState contract.
     this.state = initialState;
     this.board = board;
     this.rules = rules;
@@ -64,7 +62,6 @@ public class Game implements BaseGame, GameBoundary {
     this.state = this.state.nextState();
     this.state.handle(this);
 
-    System.out.println("Starting game with ruleset: " + this.rules.toString());
     for (Player player : this.players) {
       for (GameOutputPort observer : observers) {
         observer.onStart(player);
@@ -80,8 +77,7 @@ public class Game implements BaseGame, GameBoundary {
           for (GameOutputPort observer : observers) {
             observer.onCantMove(player, roll);
           }
-          continue; // Skip to the next player if they cannot move (overshot end position for
-          // variation)
+          continue; // Skip to the next player if they cannot move (overshot end position for variation)
         }
 
         String targetPosition = this.board.computeTargetPosition(player, roll);
